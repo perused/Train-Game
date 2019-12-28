@@ -1,16 +1,5 @@
 from num import Num
 
-def generate(a, b, c, d):
-    item = Num(a, b, c, d)
-    solutions = item.get_solutions()
-    i = 0
-    if len(solutions) == 0:
-        print("No solutions found.")
-    else:
-        while i < len(solutions):
-            print(f"Solution {i+1}: {solutions[i]}")
-            i += 1
-
 def parse(nums):
   
     if "," in nums:
@@ -35,8 +24,28 @@ def parse(nums):
         except:
             return False, 0, 0, 0, 0
 
-    return a, b, c, d 
-    
+    else:
+        return False, 0, 0, 0, 0
+
+def solve(a, b, c, d):
+
+    sitch_a([a, b, c, d])
+
+    return
+
+# a . b . c . d
+def sitch_a(nums):
+   
+     
+
+    return 
+
+def combine(x, y):
+
+    return x + y
+
+# a . (b . c) . d
+#def sitch_b(a, b, c, d):
 
 def main():
     done_parsing = False
@@ -46,8 +55,7 @@ def main():
         if not done_parsing:
             print("\nInvalid arguments. Please try again.\n")
 
-    print(f"Nums are {a}, {b}, {c}, {d}")
-    #generate(a, b, c, d)
+    solve(a, b, c, d)
 
 if __name__=="__main__":
     main()
