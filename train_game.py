@@ -29,9 +29,14 @@ def parse(nums):
 def solve(a, b, c, d):
 
     sitch_a(None, [a, b, c, d], None)
+
     sitch_b(None, [a, (b+c), d], "(" + str(b) + " + " + str(c) + ")")
     sitch_b(None, [a, (b*c), d], "(" + str(b) + " x " + str(c) + ")")
     sitch_b(None, [a, (b-c), d], "(" + str(b) + " - " + str(c) + ")")
+
+    sitch_c(None, [a, b, (c+d)], "",  "(" + str(c) + " + " + str(d) + ")")
+    sitch_c(None, [a, b, (c*d)], "", "(" + str(c) + " x " + str(d) + ")")
+    sitch_c(None, [a, b, (c-d)], "", "(" + str(c) + " - " + str(d) + ")")
 
     return
 
@@ -70,10 +75,22 @@ def sitch_b(ans, nums, string):
         sitch_b(ans*nums[0], nums[1:], string + " x " + str(nums[0]))
         sitch_b(ans-nums[0], nums[1:], string + " - " + str(nums[0]))
 
-
 # a . b . (c . d)
-def sitch_c(ans, nums, string):
-    pass
+def sitch_c(ans, nums, beg_string, end_string):
+    
+    if len(nums) == 0:
+        if ans == 10:
+            print("Solution: " + end_string)
+
+    elif len(nums) == 3:
+        sitch_c(nums[0]+nums[1], nums[2:], str(nums[0]) + " + " + str(nums[1]), end_string)
+        sitch_c(nums[0]*nums[1], nums[2:], str(nums[0]) + " x " + str(nums[1]), end_string)
+        sitch_c(nums[0]-nums[1], nums[2:], str(nums[0]) + " - " + str(nums[1]), end_string)
+
+    else:
+        sitch_c(ans+nums[0], nums[1:], "", beg_string + " + " + end_string)
+        sitch_c(ans*nums[0], nums[1:], "", beg_string + " x " + end_string)
+        sitch_c(ans-nums[0], nums[1:], "", beg_string + " - " + end_string)
 
 def main():
     done_parsing = False
