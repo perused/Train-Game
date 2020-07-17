@@ -2,6 +2,8 @@ import math
 
 # BETTER IDEA: HAVE AN OPERATIONS ARRAY THAT I ITERATE THROUGH
 
+# negatives out the front
+
 def parse(nums):
 
     if "," in nums:
@@ -38,17 +40,22 @@ def solve(a, b, c, d):
     sitch_b(None, [a, (b+c), d], "(" + str(b) + " + " + str(c) + ")")
     sitch_b(None, [a, (b*c), d], "(" + str(b) + " x " + str(c) + ")")
     sitch_b(None, [a, (b-c), d], "(" + str(b) + " - " + str(c) + ")")
-    # would need to add ALL operations here as the first operation
+    if c != 0:
+        sitch_b(None, [a, (b/c), d], "(" + str(b) + " / " + str(c) + ")")
 
     # a . b . (c . d)
     sitch_c(None, [a, b, (c+d)], "",  "(" + str(c) + " + " + str(d) + ")")
     sitch_c(None, [a, b, (c*d)], "", "(" + str(c) + " x " + str(d) + ")")
     sitch_c(None, [a, b, (c-d)], "", "(" + str(c) + " - " + str(d) + ")")
+    # if c != 0:
+    #     sitch_c(None, [a, (b/c), d], "(" + str(b) + " / " + str(c) + ")")
 
     # a . ((b . c) . d)
     sitch_d(None, [a, (b+c), d], "(" + str(b) + " + " + str(c) + ")")
     sitch_d(None, [a, (b*c), d], "(" + str(b) + " x " + str(c) + ")")
     sitch_d(None, [a, (b-c), d], "(" + str(b) + " - " + str(c) + ")")
+    # if c != 0:
+    #     sitch_d(None, [a, (b/c), d], "(" + str(b) + " / " + str(c) + ")")
 
     return
 
@@ -64,22 +71,16 @@ def sitch_a(ans, nums, string):
         sitch_a(nums[0]*nums[1], nums[2:], str(nums[0]) + " x " + str(nums[1]))
         sitch_a(nums[0]-nums[1], nums[2:], str(nums[0]) + " - " + str(nums[1]))
 
-        # recently added
-        sitch_a(nums[0]**nums[1], nums[2:], str(nums[0]) + "^" + str(nums[1]) + " ")
-
-        if nums[1] != 0 and not isinstance(nums[0], complex):
+        if nums[1] != 0:
             sitch_a(nums[0]/nums[1], nums[2:], str(nums[0]) + " / " + str(nums[1]))
-            sitch_a(nums[0]//nums[1], nums[2:], str(nums[0]) + " // " + str(nums[1]))
-            sitch_a(math.ceil(nums[0]/nums[1]), nums[2:], str(nums[0]) + " \\\\ " + str(nums[1]))
-            if nums[0] >= 0:
-                sitch_a(nums[0]**(1/nums[1]), nums[2:], str(nums[0]) + "^1/" + str(nums[1]) + " ")
 
     else:
         sitch_a(ans+nums[0], nums[1:], string + " + " + str(nums[0]))
         sitch_a(ans*nums[0], nums[1:], string + " x " + str(nums[0]))
         sitch_a(ans-nums[0], nums[1:], string + " - " + str(nums[0]))
 
-        sitch_a(ans**nums[0], nums[1:], "(" + string + ")^" + str(nums[0]))
+        if nums[0] != 0:
+            sitch_a(ans/nums[0], nums[1:], string + " / " + str(nums[0]))
 
 
 # a . (b . c) . d
@@ -94,10 +95,16 @@ def sitch_b(ans, nums, string):
         sitch_b(nums[0]*nums[1], nums[2:], str(nums[0]) + " x " + string)
         sitch_b(nums[0]-nums[1], nums[2:], str(nums[0]) + " - " + string)
 
+        if nums[1] != 0:
+            sitch_b(nums[0]/nums[1], nums[2:], str(nums[0]) + " / " + str(nums[1]))
+
     else:
         sitch_b(ans+nums[0], [], string + " + " + str(nums[0]))
         sitch_b(ans*nums[0], [], string + " x " + str(nums[0]))
         sitch_b(ans-nums[0], [], string + " - " + str(nums[0]))
+
+        if nums[0] != 0:
+            sitch_b(ans/nums[0], [], string + " / " + str(nums[0]))
 
 # a . b . (c . d)
 def sitch_c(ans, nums, beg_string, end_string):
@@ -139,12 +146,13 @@ def main():
     + = addition
     x = multiplication
     - = subtraction
-    ^ = to the power of (a^b = a to the power of b)
     / = division
-    // = floor division
-    \\\\ = ceiling division
-    a^1/b = the bth root of a
+    ^ = to the power of (a^b = a to the power of b)
     """)
+    # // = floor division
+    # \\\\ = ceiling division
+    # a^1/b = the bth root of a
+    # """)
     done_parsing = False
     while not done_parsing:
         nums = input("Enter four numbers: ")
