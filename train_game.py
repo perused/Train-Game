@@ -85,7 +85,7 @@ def sitch_a(ans, nums, string):
 
 # a . (b . c) . d
 def sitch_b(ans, nums, string):
-
+    
     if len(nums) == 0:
         if ans == 10:
             print("Solution b: " + string)
@@ -96,7 +96,7 @@ def sitch_b(ans, nums, string):
         sitch_b(nums[0]-nums[1], nums[2:], "(" + str(nums[0]) + " - " + string + ")")
 
         if nums[1] != 0:
-            sitch_b(nums[0]/nums[1], nums[2:], "(" + str(nums[0]) + " / " + str(nums[1]) + ")")
+            sitch_b(nums[0]/nums[1], nums[2:], "(" + str(nums[0]) + " / " + string + ")")
 
     else:
         sitch_b(ans+nums[0], [], "(" + string + " + " + str(nums[0]) + ")")
