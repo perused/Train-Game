@@ -1,4 +1,4 @@
-import math
+import math, sys
 
 # BETTER IDEA: HAVE AN OPERATIONS ARRAY THAT I ITERATE THROUGH
 
@@ -75,9 +75,9 @@ def sitch_a(ans, nums, string):
             sitch_a(nums[0]/nums[1], nums[2:], "(" + str(nums[0]) + " / " + str(nums[1]) + ")")
 
     else:
-        sitch_a(ans+nums[0], nums[1:], string + " + " + str(nums[0]))
+        sitch_a(ans+nums[0], nums[1:], "(" + string + " + " + str(nums[0]) + ")")
         sitch_a(ans*nums[0], nums[1:], "(" + string + " x " + str(nums[0]) + ")")
-        sitch_a(ans-nums[0], nums[1:], string + " - " + str(nums[0]))
+        sitch_a(ans-nums[0], nums[1:], "(" + string + " - " + str(nums[0]) + ")")
 
         if nums[0] != 0:
             sitch_a(ans/nums[0], nums[1:], "(" + string + " / " + str(nums[0]) + ")")
@@ -99,9 +99,9 @@ def sitch_b(ans, nums, string):
             sitch_b(nums[0]/nums[1], nums[2:], "(" + str(nums[0]) + " / " + str(nums[1]) + ")")
 
     else:
-        sitch_b(ans+nums[0], [], string + " + " + str(nums[0]))
+        sitch_b(ans+nums[0], [], "(" + string + " + " + str(nums[0]) + ")")
         sitch_b(ans*nums[0], [], "(" + string + " x " + str(nums[0]) + ")")
-        sitch_b(ans-nums[0], [], string + " - " + str(nums[0]))
+        sitch_b(ans-nums[0], [], "(" + string + " - " + str(nums[0]) + ")")
 
         if nums[0] != 0:
             sitch_b(ans/nums[0], [], "(" + string + " / " + str(nums[0]) + ")")
@@ -122,9 +122,9 @@ def sitch_c(ans, nums, beg_string, end_string):
             sitch_c(nums[0]/nums[1], nums[2:], "(" + str(nums[0]) + " / " + str(nums[1]) + ")", end_string)
 
     else:
-        sitch_c(ans+nums[0], nums[1:], "", "(" + beg_string + " + " + end_string)
+        sitch_c(ans+nums[0], nums[1:], "", "(" + beg_string + " + " + end_string + ")")
         sitch_c(ans*nums[0], nums[1:], "", "(" + beg_string + " x " + end_string + ")")
-        sitch_c(ans-nums[0], nums[1:], "", "(" + beg_string + " - " + end_string)
+        sitch_c(ans-nums[0], nums[1:], "", "(" + beg_string + " - " + end_string + ")")
 
         if nums[0] != 0:
             sitch_c(ans/nums[0], nums[1:], "", "(" + beg_string + " / " + end_string + ")")
@@ -145,9 +145,9 @@ def sitch_d(ans, nums, string):
             sitch_d(nums[1]/nums[2], nums[:2], "(" + string + " / " + str(nums[2]) + ")")
 
     else:
-        sitch_d(nums[0]+ans, [], str(nums[0]) + " + " + string)
+        sitch_d(nums[0]+ans, [], "(" + str(nums[0]) + " + " + string + ")")
         sitch_d(nums[0]*ans, [], "(" + str(nums[0]) + " x " + string + ")")
-        sitch_d(nums[0]-ans, [], str(nums[0]) + " - " + string)
+        sitch_d(nums[0]-ans, [], "(" + str(nums[0]) + " - " + string + ")")
 
         if ans != 0:
             sitch_d(nums[0]/ans, [], "(" + str(nums[0]) + " / " + string + ")")
@@ -159,21 +159,32 @@ def main():
     x = multiplication
     - = subtraction
     / = division
-    ^ = to the power of (a^b = a to the power of b)
-    """)
+    ^ = to the power of (a^b = a to the power of b)""")
     # // = floor division
     # \\\\ = ceiling division
     # a^1/b = the bth root of a
     # """)
-    done_parsing = False
-    while not done_parsing:
-        nums = input("Enter four numbers: ")
-        done_parsing, a, b, c, d = parse(nums)
-        if not done_parsing:
-            print("\nInvalid arguments. Please try again.\n")
 
-    print()
-    solve(a, b, c, d)
+
+    while True:
+
+        done_parsing = False
+
+        while not done_parsing:
+
+            nums = input("\nEnter four numbers: ")
+
+            if nums == "q":
+                print()
+                sys.exit()
+
+            done_parsing, a, b, c, d = parse(nums)
+
+            if not done_parsing:
+                print("\nInvalid arguments. Please try again.")
+
+        print()
+        solve(a, b, c, d)
 
 if __name__=="__main__":
     main()
